@@ -14,7 +14,24 @@ Build status by phase:
 | 2 | Compass + GPS + pins | next |
 | 3 | Offline map download (Thailand PMTiles) | |
 | 4 | Full guide content + search (MiniSearch) | |
-| 6 | Tools + polish | |
+| 6 | Tools + polish. "Offline status" becomes a **Library** page: every downloadable pack, its size, update button | |
+| 7 | **Library packs (ZIM):** download Kiwix ZIM files (e.g. WikiMed, Wikivoyage, iFixit) to phone storage and read them offline in the app | later |
+
+## North star: a pocket Project NOMAD
+
+[Project NOMAD](https://github.com/crosstalk-solutions/project-nomad) is an offline knowledge server: Wikipedia, books, courses, maps and local AI on a mini PC, used from a browser. This app is the **phone-sized, battery-first version** of the same idea: one install, curated content, works with zero internet.
+
+| NOMAD module | Here | Why |
+|---|---|---|
+| Offline maps (Protomaps) | ✅ Phase 3, same tech (PMTiles) | Core survival need |
+| Information Library (Kiwix) | ✅ Phase 7, ZIM packs in browser storage | The Kiwix PWA proves ZIM reading works in a phone browser |
+| Survival guides / ebooks | ✅ Guide, Knots, Gear, Life hacks | Already built, tiny |
+| Notes (FlatNotes) | ✅ Plan tab (+ free notes in Phase 6) | Stored on the phone |
+| Setup wizard + curated collections | ✅ Library page picks packs for you | One tap, shows size first |
+| Local AI chat (Ollama) | ❌ Not on the phone | NOMAD needs ~25 GB + a GPU for this. On a phone it drains the battery in minutes |
+| Khan Academy (Kolibri), CyberChef, app store | ❌ | Not survival-critical, too heavy |
+
+If you want the full NOMAD later, it runs on a home mini PC and this app can link to it over home Wi-Fi. That's a separate project. It's parked.
 
 Knot drawings are data, not images: see `src/knots/types.ts`. Open `#/knots/_sheet` to see every frame of every knot on one page while editing.
 
