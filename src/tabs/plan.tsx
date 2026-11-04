@@ -3,9 +3,25 @@ import { t } from '../i18n';
 import { newId, pinsAll, type Pin } from '../lib/db';
 import { loadPlan, savePlan, type Plan } from '../lib/plan';
 import { exportBackup, parseBackup, restoreBackup } from '../lib/backup';
+import { Icon } from '../components/icons';
+import { GearArt, artFor } from '../gear/art';
+import type { ComponentChildren } from 'preact';
 
 type Lists = 'triggers' | 'rally' | 'contacts' | 'bag';
 const val = (e: Event) => (e.currentTarget as HTMLInputElement).value;
+
+function Sect(p: { icon: string; c: string; title: string; count?: string | number; children: ComponentChildren }) {
+  return (
+    <details class="sect" open style={`--c:${p.c}`}>
+      <summary>
+        <Icon name={p.icon} size={26} />
+        <span>{p.title}</span>
+        {p.count !== undefined && <span class="count">{p.count}</span>}
+      </summary>
+      {p.children}
+    </details>
+  );
+}
 
 export default function PlanTab() {
   const [plan, setPlan] = useState<Plan | null>(null);
@@ -82,10 +98,12 @@ export default function PlanTab() {
 
   return (
     <div class="plan">
-      <p class="muted">{t('plan.savedLocal')}</p>
+      <div class="plan-hero">
+        <Icon name="save" size={28} />
+        <p>{t('plan.savedLocal')}</p>
+      </div>
 
-      <details open>
-        <summary>{t('plan.triggers')}</summary>
+      <Sect icon="bolt" c="#ffb020" title={t('plan.triggers')} count={plan.triggers.length}>
         <p class="muted">{t('plan.triggersHint')}</p>
         {plan.triggers.map((r) => (
           <div class="row-card" key={r.id}>
@@ -97,10 +115,9 @@ export default function PlanTab() {
           </div>
         ))}
         <button class="add" onClick={() => add('triggers', { ifText: '', thenText: '' })}>+ {t('plan.addTrigger')}</button>
-      </details>
+      </Sect>
 
-      <details open>
-        <summary>{t('plan.rally')}</summary>
+      <Sect icon="pin" c="#32d74b" title={t('plan.rally')} count={plan.rally.length}>
         {pins.length === 0 && <p class="muted">{t('plan.rallyNoPins')}</p>}
         {plan.rally.map((r) => (
           <div class="row-card" key={r.id}>
@@ -119,10 +136,9 @@ export default function PlanTab() {
           </div>
         ))}
         <button class="add" onClick={() => add('rally', { name: '', note: '' })}>+ {t('plan.addRally')}</button>
-      </details>
+      </Sect>
 
-      <details open>
-        <summary>{t('plan.contacts')}</summary>
+      <Sect icon="phone" c="#64d2ff" title={t('plan.contacts')} count={plan.contacts.length}>
         {plan.contacts.map((c) => (
           <div class="row-card contact" key={c.id}>
             <input aria-label={t('plan.contactName')} placeholder={t('plan.contactName')} value={c.name} onInput={(e) => edit('contacts', c.id, { name: val(e) })} />
@@ -134,14 +150,18 @@ export default function PlanTab() {
           </div>
         ))}
         <button class="add" onClick={() => add('contacts', { name: '', phone: '' })}>+ {t('plan.addContact')}</button>
-      </details>
+      </Sect>
 
-      <details open>
-        <summary>{t('plan.bag')} · {t('plan.bagCount', { done, total: plan.bag.length })}</summary>
+      <Sect icon="bag" c="#ff9f0a" title={t('plan.bag')} count={`${done}/${plan.bag.length}`}>
+        <div class="progress" role="progressbar" aria-valuemin={0} aria-valuemax={plan.bag.length} aria-valuenow={done}>
+          <i style={{ width: `${plan.bag.length ? (100 * done) / plan.bag.length : 0}%` }} />
+        </div>
+        <a class="link-row" href="#/guide/gear"><Icon name="gear" /> {t('plan.gearLink')} ›</a>
         <ul class="checklist">
           {plan.bag.map((it) => (
-            <li key={it.id}>
+            <li key={it.id} class={it.done ? 'done' : ''}>
               <input type="checkbox" aria-label={it.text} checked={it.done} onChange={(e) => edit('bag', it.id, { done: (e.currentTarget as HTMLInputElement).checked })} />
+              <span class="gear-ico"><GearArt name={artFor(it.text)} /></span>
               <input aria-label={t('plan.bagItem')} value={it.text} onInput={(e) => edit('bag', it.id, { text: val(e) })} />
               <button class="icon danger" aria-label={t('common.delete')} onClick={() => remove('bag', it.id)}>✕</button>
             </li>
@@ -151,15 +171,13 @@ export default function PlanTab() {
           <button class="add" onClick={() => add('bag', { text: '', done: false })}>+ {t('plan.addItem')}</button>
           <button onClick={() => commit({ ...plan, bag: plan.bag.map((x) => ({ ...x, done: false })) })}>{t('plan.uncheckAll')}</button>
         </div>
-      </details>
+      </Sect>
 
-      <details open>
-        <summary>{t('plan.medical')}</summary>
+      <Sect icon="heart" c="#ff6482" title={t('plan.medical')}>
         <textarea rows={6} placeholder={t('plan.medicalHint')} value={plan.medical} onInput={(e) => commit({ ...plan, medical: val(e) })} />
-      </details>
+      </Sect>
 
-      <details open>
-        <summary>{t('plan.backup')}</summary>
+      <Sect icon="save" c="#bf5af2" title={t('plan.backup')}>
         <p class="muted">{t('plan.backupHint')}</p>
         <div class="stack">
           <button class="primary" onClick={() => exportBackup()}>{t('plan.export')}</button>
@@ -167,7 +185,7 @@ export default function PlanTab() {
           <input ref={fileRef} type="file" accept="application/json,.json" hidden onChange={onImport} />
         </div>
         {msg && <p role="status" class="status-msg">{msg}</p>}
-      </details>
+      </Sect>
     </div>
   );
 }

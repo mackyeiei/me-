@@ -1,0 +1,71 @@
+/* Rope drawing. Colours come from theme tokens so red night mode just works. */
+.knot-svg { display: block; width: 100%; height: auto; }
+.knot-svg path { fill: none; stroke-linecap: butt; stroke-linejoin: round; }
+.knot-svg .r-body { stroke-linecap: round; } /* hides seams where layers meet */
+.knot-svg .r-out { stroke: var(--bg); }
+.knot-svg .r-lay { stroke: var(--rope-lay); stroke-dasharray: 2.5 5; }
+.rope-a .r-body { stroke: var(--rope-a); }
+.rope-b .r-body { stroke: var(--rope-b); }
+.rope-w .r-body { stroke: var(--rope-w); }
+.rope-cord .r-body { stroke: var(--rope-cord); }
+.obj .o-out { fill: var(--bg); }
+.obj-wood .o-body { fill: var(--wood); }
+.obj-metal .o-body { fill: var(--metal); }
+.obj .o-shine { fill: var(--shine); }
+.knot-svg .k-next { stroke: var(--accent); stroke-width: 3.5; stroke-dasharray: 7 6; stroke-linecap: round; }
+.knot-svg .k-head { fill: var(--accent); }
+.knot-svg .k-pull { fill: var(--accent); stroke: var(--bg); stroke-width: 2; }
+
+/* Knot list */
+.knot-grid { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.knot-card {
+  display: flex; flex-direction: column; height: 100%;
+  background: var(--card); border: 1px solid var(--line); border-radius: 18px;
+  text-decoration: none; color: var(--fg); overflow: hidden;
+}
+.knot-card:active { background: var(--card-2); }
+.knot-thumb { background: var(--stage); padding: 6px; border-bottom: 1px solid var(--line); }
+.knot-meta { display: grid; gap: 6px; padding: 10px 12px 12px; }
+.knot-meta strong { font-size: 18px; line-height: 1.2; }
+
+.level { display: inline-flex; gap: 4px; }
+.level i { width: 10px; height: 10px; border-radius: 50%; border: 2px solid var(--muted); }
+.level i.on { background: var(--accent); border-color: var(--accent); }
+
+/* Knot page: drawing, step text and Next fit on one phone screen. */
+.knot-top { display: flex; align-items: center; gap: 12px; }
+.knot-top .icon-back { margin: 0; padding: 0; width: 52px; font-size: 30px; line-height: 1; }
+.knot-title { flex: 1; font-size: 25px; margin: 0; }
+.knot-tag { margin: 0 0 14px; font-size: 17px; color: var(--muted); display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.knot-stage {
+  margin: 10px 0 10px; padding: 6px; border-radius: 20px;
+  background: var(--stage); border: 1px solid var(--line);
+}
+.knot-stage .knot-svg { max-height: 38vh; margin: 0 auto; }
+.step-dots { display: flex; justify-content: center; gap: 8px; padding: 6px 0 4px; }
+.step-dots i { width: 10px; height: 10px; border-radius: 50%; background: var(--line); }
+.step-dots i.done { background: var(--muted); }
+.step-dots i.on { background: var(--accent); width: 26px; border-radius: 5px; }
+.step-box { display: flex; gap: 14px; align-items: flex-start; min-height: 84px; }
+.step-box p { margin: 4px 0 0; font-size: 21px; font-weight: 600; }
+.step-num {
+  flex: none; display: grid; place-items: center; width: 56px; height: 56px; border-radius: 16px;
+  background: var(--accent); color: var(--on-accent); font-size: 26px; font-weight: 900; line-height: 1;
+}
+.step-num small { font-size: 12px; font-weight: 800; opacity: .75; }
+.step-nav { display: grid; grid-template-columns: 1fr 1.4fr; gap: 10px; margin: 8px 0 20px; }
+.step-nav button { min-height: 60px; font-size: 20px; }
+.step-nav button:disabled { opacity: .35; }
+
+.info-card { border-radius: 16px; padding: 14px 16px 6px; margin-bottom: 12px; background: var(--card); border: 1px solid var(--line); border-left: 6px solid var(--c, var(--line)); }
+.info-card h3 { display: flex; align-items: center; gap: 8px; color: var(--c); font-size: 19px; margin-bottom: 6px; }
+.info-card ul { margin: 0 0 8px; padding-left: 1.2em; }
+.info-card li { margin-bottom: 6px; }
+.info-card.use { --c: var(--blue); }
+.info-card.check { --c: var(--green); }
+.info-card.mistakes { --c: var(--red); }
+
+/* Dev sheet */
+.sheet h3 { margin-top: 18px; }
+.sheet-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+.sheet-cell { background: var(--stage); border: 1px solid var(--line); border-radius: 8px; }

@@ -51,15 +51,15 @@ export default function ToolsTab() {
         <h2>{t('tools.status')}</h2>
         <dl class="kv">
           <dt>{t('tools.sw')}</dt>
-          <dd>{st ? yn(st.sw) : '…'}</dd>
+          <dd class={st ? (st.sw ? 'ok' : 'bad') : ''}>{st ? yn(st.sw) : '…'}</dd>
           <dt>{t('tools.files')}</dt>
           <dd>{st ? st.files : '…'}</dd>
           <dt>{t('tools.storage')}</dt>
           <dd>{st ? `${mb(st.usage)}${st.quota ? ` / ${mb(st.quota)}` : ''}` : '…'}</dd>
           <dt>{t('tools.persisted')}</dt>
-          <dd>{st ? yn(st.persisted) : '…'}</dd>
+          <dd class={st?.persisted ? 'ok' : 'bad'}>{st ? yn(st.persisted) : '…'}</dd>
           <dt>{t('tools.installed')}</dt>
-          <dd>{yn(isStandalone())}</dd>
+          <dd class={isStandalone() ? 'ok' : 'bad'}>{yn(isStandalone())}</dd>
           <dt>{t('tools.online')}</dt>
           <dd>{online ? t('tools.onlineYes') : t('tools.onlineNo')}</dd>
         </dl>

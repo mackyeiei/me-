@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'preact/hooks';
 import { t, type StringKey } from './i18n';
 import { lazy } from './lib/lazy';
-import { TabIcon } from './components/icons';
+import { Icon, TabIcon } from './components/icons';
 import { UpdateBanner } from './components/update-banner';
 import PlanTab from './tabs/plan';
 import Soon from './tabs/soon';
@@ -11,6 +11,7 @@ export type Tab = (typeof TABS)[number];
 
 const GuideTab = lazy(() => import('./tabs/guide'));
 const ToolsTab = lazy(() => import('./tabs/tools'));
+const KnotsTab = lazy(() => import('./tabs/knots'));
 
 function parseHash(): { tab: Tab; sub: string } {
   const [, tab, ...rest] = location.hash.replace(/^#/, '').split('/');
@@ -56,6 +57,7 @@ export function App() {
   return (
     <>
       <header class="top">
+        <span class="brand"><Icon name={tab} /></span>
         <h1>{t(`tab.${tab}` as StringKey)}</h1>
         <button
           class={red ? 'theme on' : 'theme'}
@@ -63,6 +65,7 @@ export function App() {
           aria-label={t('theme.toggle')}
           onClick={() => setRed(!red)}
         >
+          <Icon name={red ? 'sun' : 'moon'} />
           {red ? t('theme.day') : t('theme.night')}
         </button>
       </header>
@@ -71,7 +74,7 @@ export function App() {
         {tab === 'map' && <Soon phase={3} text={t('soon.map')} />}
         {tab === 'compass' && <Soon phase={2} text={t('soon.compass')} />}
         {tab === 'guide' && <GuideTab sub={sub} />}
-        {tab === 'knots' && <Soon phase={5} text={t('soon.knots')} />}
+        {tab === 'knots' && <KnotsTab sub={sub} />}
         {tab === 'plan' && <PlanTab />}
         {tab === 'tools' && <ToolsTab />}
       </main>

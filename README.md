@@ -9,11 +9,14 @@ Build status by phase:
 | Phase | What | Status |
 |---|---|---|
 | 1 | PWA shell, offline install, tabs, Plan page, 3 sample guide pages | ✅ done |
+| 5 | Knots: 15 knots, step-by-step SVG drawings | ✅ done (pulled forward) |
+| + | Redesign, illustrated go-bag gear guide (THB prices), 7 life-hack pages | ✅ done |
 | 2 | Compass + GPS + pins | next |
 | 3 | Offline map download (Thailand PMTiles) | |
 | 4 | Full guide content + search (MiniSearch) | |
-| 5 | Knots with SVG illustrations | |
 | 6 | Tools + polish | |
+
+Knot drawings are data, not images: see `src/knots/types.ts`. Open `#/knots/_sheet` to see every frame of every knot on one page while editing.
 
 ## Stack
 
